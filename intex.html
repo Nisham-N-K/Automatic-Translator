@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Translator</title>
+</head>
+
+<body>
+    <h1>English</h1>
+
+    <textarea id="inputText" rows="4" cols="50" oninput="translateText()"></textarea>
+    <br>
+    <br>
+    <h1>മലയാളം</h1>
+    <textarea id="outputText" rows="4" cols="50"></textarea>
+
+    <script>
+        function translateText() {
+            const inputText = document.getElementById('inputText').value;
+            const sourceLang = 'en'; // Source language (English)
+            const targetLang = 'ml'; // Target language (Malayalam)
+
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(inputText)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const translatedText = data[0][0][0];
+                    document.getElementById('outputText').textContent = translatedText;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
